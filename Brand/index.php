@@ -59,7 +59,7 @@ $users = new BrandsController();
                             <i class="material-icons">info_outline</i>
                         </div>
                         <p class="card-category">Inactive</p>
-                        <h3 class="card-title"  id="inactive" ><?= $rs = $users->inBrandCount('brand_status','Inactive');
+                        <h3 class="card-title"  id="inactive" ><?= $rs = $users->inBrandCount('brand_status','Inactive')->rowCount();
                             ?></h3>
                     </div>
                     <div class="card-footer">
@@ -149,16 +149,18 @@ $users = new BrandsController();
     <div class="modal-dialog">
 
         <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content card">
+            <div class="card-header card-header-success">
+                <h4 class="card-title">Edit Brand</h4>
+                <p class="card-category">Please Fill All Details</p>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
+
+
+
             <div class="modal-body">
-                <div class="card">
-                    <div class="card-header card-header-success">
-                        <h4 class="card-title">Edit Category</h4>
-                        <p class="card-category">Please Fill All Details</p>
-                    </div>
+                <div class="">
+
                     <div class="card-body">
                         <form method="post" action="../Brand/brandApi.php" enctype="multipart/form-data">
 
@@ -199,16 +201,15 @@ $users = new BrandsController();
     <div class="modal-dialog">
 
         <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content card">
+            <div class="card-header card-header-warning">
+                <h4 class="card-title">Edit Brand</h4>
+                <p class="card-category">Please Fill All Details</p>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="card">
-                    <div class="card-header card-header-warning">
-                        <h4 class="card-title">Edit Add</h4>
-                        <p class="card-category">Please Fill All Details</p>
-                    </div>
+                <div class="">
+
                     <div class="card-body">
                         <form method="post" action="../Brand/brandApi.php" enctype="multipart/form-data">
 

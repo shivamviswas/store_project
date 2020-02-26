@@ -22,7 +22,7 @@ class UserController extends User
     }
     public function inUserCount($check,$condition){
 
-        return $this->countElement($check,$condition)->rowCount();
+        return $this->countElement($check,$condition);
 
     }
     public function fetchAll(){
@@ -34,6 +34,11 @@ class UserController extends User
     public function deleteUser($user_id,$status){
 
         return $this->updateUserStatus($user_id,$status);
+
+    }
+    public function getUserForId($name){
+
+        return $this->getNameId($name);
 
     }
 

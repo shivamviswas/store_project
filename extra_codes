@@ -1,0 +1,336 @@
+function removeItem(id) {
+    $('#'+id).remove();
+    $('#cart'+id).remove();
+}
+function getItem(id,itemId) {
+$.ajax({
+    url: '../Product/productApi.php',
+    type: 'post',
+    data: {
+        get_product_product: id
+    },
+    success: function (data) {
+    var ob=JSON.parse(data);
+            var qyt_list='<option value="">Select</option>';
+            for (var i = 1; i<ob.product_qyt; i++){
+                qyt_list+='<option value="'+i+'">'+i+ '('+ob.product_unit+')</option>';
+            }
+
+       var html='<select class="form-control" onchange="countTotal(this.value,'+(itemId)+','+(ob.product_mrp)+')">';
+        html+=qyt_list;
+        html+='</select></td>';
+        var mdata='<tr id="cart'+itemId+'" class="productitm">' +
+            '<td>'+ob.product_name+'</td>' +
+            '<td>'+html+'</td>'+
+            '<td><span id="price_v'+itemId+'">'+(ob.product_mrp)+'</span><input type="hidden" id="price'+itemId+'" value="'+(ob.product_mrp)+'"></td>' +
+            '</tr>';
+
+        $('#cart').append(mdata);
+
+
+    }
+});
+
+
+    /* */
+
+}
+function countTotal(qyt,itmId,amt) {
+    var price_v='#price_v'+itmId;
+    var price_main=qyt*amt;
+        $(''+price_v).html(''+price_main);
+        $('#price'+itmId).val(''+price_main);
+    var sub=0;
+        sub+=amt;
+    $('#sub_v').html( amt );
+    $('#sub_v').html( amt );
+
+
+
+}
+
+     <div class="row">
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header card-header-warning">
+                        <h4 class="card-title">Order</h4>
+                        <p class="card-category">Please Fill All Details</p>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <? echo "<input type='hidden' id='temp_code' value=''/>"; ?>
+                            <div class="col border">
+                                <select id="produc" data-live-search="true" class="form-control selectPicker">
+
+                                </select>
+                            </div>
+                            <div class="col border">
+                                <input type="number" value="1" class="form-control" id="qyt">
+                            </div>
+                            <div class="col border">
+                                <select class="form-control" id="unit">
+                                    <option value="select"> Select</option>
+                                    <option value="Gram"> GRAM</option>
+                                    <option value="Kg"> KG</option>
+                                    <option value="Pc"> PC</option>
+                                </select>
+                            </div>
+                            <div class="col border mx-auto d-block">
+                                <a href="#" id="addMore"><span class=" btn btn-success">Add</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+
+                <div class="card" id="mainCart">
+                    <form>
+                        <div class="card-header card-header-success">
+                            <h4 class="card-title" id="name_view">Cart</h4>
+                            <p class="card-category" id="code_view">Pay</p>
+                        </div>
+                        <div class="card-body">
+
+                            <div id="page">
+                                <!-- <div class="row border">
+                                     <div class="col">
+                                         <div class="form-group">
+                                             <label for='auto' class="bmd-label-floating">Code</label>
+                                             <input type="text" id="auto" required value="" class="form-control auto"
+                                                    name="code">
+                                         </div>
+                                     </div>
+                                     <div class="col">
+                                         <div class="form-group">
+                                             <label for="username" class="bmd-label">Name</label>
+                                             <input type="text" id="username" value="" required class="form-control auto"
+                                                    name="name">
+                                         </div>
+                                     </div>
+                                     <div class="col">
+                                         <div class="form-group">
+                                             <label for="usermobile" class="bmd-label">Mobile</label>
+                                             <input type="number" value="" id="usermobile" required
+                                                    class="form-control auto"
+                                                    name="mobile">
+                                             <input type="hidden" id="userid" name="user_id">
+                                         </div>
+                                     </div>
+                                 </div>-->
+                                <table id="cart" class=" table-bordered cart">
+                                    <thead>
+                                    <tr>
+
+                                        <th class="pro">Product</th>
+                                        <th class="qyt">Qty</th>
+                                        <th class="unt">Unit</th>
+                                        <th class="prc">Price</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <?
+                                    $rs = $cart->getAll()->fetchAll();
+                                    $t = 0;
+                                    foreach ($rs as $r) {
+                                        $price = $r['price'];
+                                        $id = $r['product_id'];
+                                        $qyt = $r['qyt'];
+                                        $t += $price;
+                                        $p = 1;
+                                        $s = 0;
+
+                                        echo "<tr>
+                                             <td>" . $r['product_name'] . "</td>
+                                             <td > <div class='d-flex'><a href='#' onclick='qytUpdate($id,$qyt,$s)' class='nav-pills  btn-danger' id='" . $r['product_id'] . "'><i class='fa fa-minus'></i></a>
+                                                    <input style='text-align: center' type='number' onclick='' value='$qyt' class='form-control small'>
+                                                    <a href='#' onclick='qytUpdate($id,$qyt,$p)' class='nav-pills btn-success' id='" . $r['product_id'] . "'><i class='fa fa-plus'></i></a>
+                                                    </td>
+                                                    </div>
+                                             <td>" . $r['unit'] . '</td>
+                                             <td>' . $r['price'] . "</td>
+                                             <td><a href='#' onclick='deleteItem($id)' class='badge-pill badge-danger deleteItem' id='" . $r['product_id'] . "'><i class='fa fa-trash'></i></a></td>
+                                            </tr>";
+                                    }
+                                    $dis = 0;
+                                    ?>
+
+                                    </tbody>
+                                    <tfoot>
+                                    <tr class="extracosts">
+                                        <td colspan="3" class=" light text-right">Sub Total</td>
+                                        <td colspan="" class="text-right"><span id="sub_v"> <?= $t ?> </span> <input
+                                                    type="hidden" id="sub"
+                                                    value="0"></td>
+
+                                    </tr>
+                                    <tr class="extracosts">
+                                        <td colspan="3" class=" light text-right">Add Discount</td>
+                                        <td class="text-right"><span id="discount_v"> <?= /*$dis=$t-($t*(50/100)*/
+                                                $dis = 0; ?> </span> <input
+                                                    type="hidden" id="discount" value="50"></td>
+                                    </tr>
+                                    <!-- tax + subtotal -->
+                                    <tr class="extracosts">
+                                        <td colspan="3" class=" light text-right">Taxes</td>
+
+
+                                        <td class="text-right"><span
+                                                    id="tax_v"><?= $tax = $t * (4 / 100) ?> </span><input type="hidden"
+                                                                                                          id="tax"
+                                                                                                          value="4">
+                                        </td>
+
+                                    </tr>
+
+                                    <tr class="totalprice">
+                                        <td colspan="3" class="light text-right">Total Payable:</td>
+
+                                        <td class="text-right"><span class="thick" id="net_total_v"><i
+                                                        class="fa fa-inr"></i><?= $tax + $t ?> <input
+                                                        type="hidden" id="net" value="0"> </span></td>
+                                    </tr>
+
+                                    <!-- checkout btn -->
+                                    <tr class="checkoutrow">
+                                        <td colspan="1" class="checkout">
+                                            <button class=" btn btn-sm btn-danger" onclick="location.reload()">Reset</button>
+                                        </td>
+                                        <td colspan="3" class="checkout">
+                                            <button class="btn float-right  btn-success">Checkout Now!</button>
+                                        </td>
+
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+</div>
+
+
+
+
+
+        $(function(){
+
+            $('#addMore').click(function (e) {
+                e.preventDefault();
+                $('#order_id').submit();
+                var pro_id=$('#produc').val();
+                var qyt=$('#qyt').val();
+                var unit=$('#unit').val();
+                var temp=$('#temp_code').val();
+                if(pro_id =='Select' || qyt<0 ){
+                    alert('Please Fill All details')
+                }else {
+                    $.ajax({
+                        url: '../Cart/cartApi.php',
+                        type: 'post',
+                        data: {
+                            addCart: 'ok',
+                            pro_id: pro_id,
+                            qyt: qyt,
+                            temp: temp,
+                            unit: unit
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            if(data.toString().trim() =='success'){
+                                $("#mainCart").load(window.location.href + " #mainCart");
+                            }else if (data=='low_qyt'){
+                                alert('Low Quantity');
+                            }
+                            else {
+                                alert('Failed');
+                            }
+                        }
+                    });
+                }
+
+
+            });
+
+
+
+
+        });
+        function deleteItem(id) {
+            var pro_id=id;
+            var temp=$('#temp_code').val();
+            $.ajax({
+                url: '../Cart/cartApi.php',
+                type: 'post',
+                data: {
+                    deleteItem: 'ok',
+                    temp: temp,
+                    pro_id: pro_id,
+                },
+                success: function (data) {
+                    console.log(data);
+                    if(data.toString().trim() =='success'){
+                        $("#mainCart").load(window.location.href + " #mainCart");
+                    }
+                    else {
+                        alert('Failed');
+                    }
+                }
+            });
+        }
+
+        function qytUpdate(id,qyt,act) {
+
+        if(act==0)
+        {
+            qyt--;
+        }
+        else {
+            qyt++;
+        }
+
+            var temp=$('#temp_code').val();
+            if (qyt!=''){
+                $.ajax({
+                    url: '../Cart/cartApi.php',
+                    type: 'post',
+                    data: {
+                        updateCart: 'ok',
+                        temp: temp,
+                        pro_id: id,
+                        qyt: qyt,
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if(data.toString().trim() =='success'){
+                            $("#mainCart").load(window.location.href + " #mainCart");
+                        }else if (data=='low_qyt'){
+                            alert('Low Quantity');
+                        }
+                        else {
+                            alert('Failed');
+                        }
+                    }
+                });
+            }
+
+        }
+        function init() {
+            $.ajax({
+                url: '../Cart/cartApi.php',
+                type: 'post',
+                data: {
+                    delete: 'ok',
+                },
+                success: function (data) {
+                    if(data.toString().trim() =='success'){
+                        $("#mainCart").load(window.location.href + " #mainCart");
+                    }
+                }
+            });
+        }

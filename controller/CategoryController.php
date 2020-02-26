@@ -24,7 +24,7 @@ class CategoryController extends Category
     }
     public function inCategoryCount($check,$condition){
 
-        return $this->countElement($check,$condition)->rowCount();
+        return $this->countElement($check,$condition);
 
     }
 
@@ -49,6 +49,11 @@ class CategoryController extends Category
 
        }
         return http_response_code(500);
+    }
+    public function getCategoryName($check,$condition){
+
+        $r=$this->countElement($check,$condition)->fetch();
+        return $r['category_name'];
     }
 
 

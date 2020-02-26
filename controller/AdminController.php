@@ -11,15 +11,20 @@ class AdminController extends Admin
 
     public function checkLogin($mobile, $password)
     {
-        session_start();
-        $r=$this->checkUser($mobile, $password)->fetch();
+        $r=$this->checkUser($mobile, $password);
+        if($r!='0')
+       { session_start();
+        $r=$this->checkUser($mobile, $password)->fetch(PDO::FETCH_ASSOC);
         $_SESSION['name']=$r['name'];
         $_SESSION['mobile']=$r['mobile'];
         return 'success';
+       }else{
+            return $r;
+        }
     }
 
     public function logout()
-    {
+    { session_start();
         session_unset();
         session_destroy();
         return true;

@@ -49,8 +49,12 @@ class BrandsController extends Brands
 
     public function inBrandCount($row, $cond)
     {
-        return $this->countElement($row, $cond)->rowCount();
+        return $this->countElement($row, $cond);
     }
 
+    public function getBrandName($check,$condition){
 
+        $r=$this->countElement($check,$condition)->fetch();
+        return $r['brand_name'];
+    }
 }

@@ -12,7 +12,9 @@ else {
     include_once('../controller/CategoryController.php');
 
     if (isset($_POST['addNewCategory'])) {
-        $name = $_POST['name'];
+
+
+       $name = $_POST['name'];
         $dec = $_POST['description'];
         $status = 'Active';
         if ($name == '' || $dec == '' || $name == '') {
@@ -20,10 +22,11 @@ else {
         } else {
                 $addNewAdmin = new CategoryController();
                 if ($addNewAdmin->createCategory($name, $dec,$status)) {
-                    echo location('../main_page/dashboard.php?page=../Category/index');
+                   echo 1;
                 } else {
-                    echo duplicateBack('Duplicate Category Item');
+                    echo 0;
                 }
+
         }
     }
 

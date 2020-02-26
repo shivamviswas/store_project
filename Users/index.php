@@ -57,7 +57,7 @@ $users = new UserController();
                             <i class="material-icons">info_outline</i>
                         </div>
                         <p class="card-category">Inactive Users</p>
-                        <h3 class="card-title"  id="inactive" ><?= $rs = $users->inUserCount('status','Inactive');
+                        <h3 class="card-title"  id="inactive" ><?= $rs = $users->inUserCount('status','Inactive')->rowCount();
                         ?></h3>
                     </div>
                     <div class="card-footer">

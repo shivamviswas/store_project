@@ -1,11 +1,16 @@
 
 <!--   Core JS Files   -->
 <script src="../assets/js/core/jquery.min.js"></script>
+<script src="../assets/js/core/jquery-ui.js"></script>
 <script src="../assets/js/core/popper.min.js"></script>
 <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
 <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/js/bootstrap-select.min.js"></script>
 <!-- Plugin for the momentJs  -->
 <script src="../assets/js/plugins/moment.min.js"></script>
+<script src="../assets/jquery-confirm-master/dist/jquery-confirm.min.js"></script>
+<script src="../assets/jquery-confirm-master/js/jquery-confirm.js"></script>
+<script src="../assets/js/jquery.validate.min.js"></script>
 <script src="../assets/js/myjs.js"></script>
 <script src="../assets/js/myAjax.js"></script>
 <!--  Plugin for Sweet Alert -->

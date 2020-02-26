@@ -5,6 +5,8 @@ if(!isset($_SESSION['name'])&&!isset($_SESSION['mobile']))
 {
     header('Location:../index.php');
 }
+include_once('../includes/myFunctions.php');
+
 $dash='active';
 $user='';
 $brand='';
@@ -18,18 +20,18 @@ $pro='';
 <!DOCTYPE html>
 <html lang="en">
 <!--header-->
-<?php include('header.php')?>
-<body class="">
+<?php include_once('header.php')?>
+<body class="" ">
 
 <div class="wrapper ">
 
 <!--sidebar bar-->
-    <?php include('sidebar.php')?>
+    <?php include_once('sidebar.php')?>
 <!--sidebar bar end-->
 
     <div class="main-panel">
         <!-- Navbar -->
-        <?php include('navbar.php')?>
+        <?php include_once('navbar.php')?>
         <!-- End Navbar -->
 
         <!-- main page-->
@@ -54,7 +56,7 @@ $pro='';
 </div>
 
 <!--script-->
-<?php include('footer_script.php')?>
+<?php include_once('footer_script.php')?>
 <!--script-->
 
 </body>

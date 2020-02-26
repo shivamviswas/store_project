@@ -14,7 +14,7 @@ $brand = new BrandsController();
 
 <div class="content">
 
-    <div class="container-fluid">
+    <div class="container-fluid" id="load_fun">
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
@@ -28,7 +28,7 @@ $brand = new BrandsController();
                         </h3>
                     </div>
                     <div class="card-footer">
-                        <a href="#" id="addNewCategory">
+                        <a href="#" id="addNewBrand">
                             <div class="stats">
                                 <i class="material-icons">library_books</i> Add New
                             </div>
@@ -43,7 +43,7 @@ $brand = new BrandsController();
                             <i class="material-icons">content_paste</i>
                         </div>
                         <p class="card-category">Brands</p>
-                        <h3 class="card-title"><?= $brand->brandCount(); ?></h3>
+                        <h3 class="card-title"><?= $brand->brandCount();?></h3>
                     </div>
                     <div class="card-footer">
                        <a href="../main_page/dashboard.php?page=../Brand/index"> <div class="stats">
@@ -59,7 +59,7 @@ $brand = new BrandsController();
                             <i class="material-icons">info_outline</i>
                         </div>
                         <p class="card-category">Inactive</p>
-                        <h3 class="card-title"  id="inactive" ><?= $rs = $users->inCategoryCount('category_status','Inactive');
+                        <h3 class="card-title"  id="inactive" ><?= $rs = $users->inCategoryCount('category_status','Inactive')->rowCount();
                             ?></h3>
                     </div>
                     <div class="card-footer">
@@ -150,16 +150,16 @@ $brand = new BrandsController();
     <div class="modal-dialog">
 
         <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content card">
+            <div class="card-header card-header-success">
+                <h4 class="card-title">Edit Category</h4>
+                <p class="card-category">Please Fill All Details</p>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+
             </div>
             <div class="modal-body">
-                <div class="card">
-                    <div class="card-header card-header-success">
-                        <h4 class="card-title">Edit Category</h4>
-                        <p class="card-category">Please Fill All Details</p>
-                    </div>
+                <div class="">
+
                     <div class="card-body">
                         <form method="post" action="../Category/categoryApi.php" enctype="multipart/form-data">
 
@@ -196,22 +196,22 @@ $brand = new BrandsController();
 </div>
 
 <!-- add cate -->
-<div id="addCate" class="modal fade" role="dialog">
+<div id="addBrand" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content card">
+            <div class="card-header card-header-success">
+                <h4 class="card-title">Add Category</h4>
+                <p class="card-category">Please Fill All Details</p>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
+
             <div class="modal-body">
-                        <div class="card">
-                            <div class="card-header card-header-success">
-                                <h4 class="card-title">Add Category</h4>
-                                <p class="card-category">Please Fill All Details</p>
-                            </div>
+                        <div class="">
+
                             <div class="card-body">
-                                <form method="post" action="../Category/categoryApi.php" enctype="multipart/form-data">
+                                <form class="form-horizontal" id="category_add_form">
 
                                     <div class="">
                                         <div class="row">
@@ -230,9 +230,9 @@ $brand = new BrandsController();
                                                 </div>
                                             </div>
                                         </div>
-
+<input type="hidden" name="addNewCategory" value="0">
                                     </div>
-                                    <button type="submit" name="addNewCategory" class="btn btn-success pull-right">Submit</button>
+                                    <button type="button" onclick="addCategory()" name="addNewCategory" class="btn btn-success pull-right">Submit</button>
 
                                     <div class="clearfix"></div>
                                 </form>

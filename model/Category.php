@@ -54,12 +54,6 @@ class Category extends Dbh
 
     }
 
-    public function getCategory()
-    {
-        $qry = $this->connect()->prepare("SELECT * FROM `category`");
-        $qry->execute();
-        return $qry;
-    }
 
     public function categoryQuery()
     {

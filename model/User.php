@@ -75,6 +75,13 @@ class User extends Dbh
         $qry->execute();
         return $qry;
     }
+    public function getNameId($name)
+    {
+        $qry = $this->connect()->prepare("SELECT * FROM `users` WHERE `name` LIKE :n OR `mobile` LIKE :n OR `code` LIKE :n");
+        $qry->bindValue(':n', '%' . $name . '%');
+        $qry->execute();
+        return $qry;
+    }
 
     public function countElement($check, $condition)
     {
