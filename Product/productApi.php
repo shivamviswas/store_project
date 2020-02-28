@@ -36,6 +36,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && realpath(__FILE__) == realpath($_SERV
             }
         }
     }
+    if(isset($_POST['update'])){
+        $name=$_POST['name'];
+        $des=$_POST['des'];
+        $cate_id=$_POST['cate'];
+        $brand=$_POST['brand'];
+        $location=$_POST['location'];
+        $base=$_POST['base_price'];
+        $unit=$_POST['unit'];
+        $qyt=$_POST['qyt'];
+        $mrp=$_POST['mrp'];
+        $id=$_POST['id'];
+        $status='Active';
+
+        if ($name == '' || $des == ''|| $mrp == ''|| $base == ''|| $qyt == '') {
+            echo duplicateBack('Please Fill All Details');
+        } else {
+            $addNewAdmin = new ProductController();
+            if ($addNewAdmin-> update($id, $name, $des, $cate_id, $brand, $mrp, $base, $qyt, $unit, $location)) {
+                echo location('../main_page/dashboard.php?page=../Product/index');
+            } else {
+                echo duplicateBack('Duplicate Brand Item');
+            }
+        }
+    }
     if(isset($_POST['delete'])){
         $id=$_POST['delete'];
         $n= new ProductController();

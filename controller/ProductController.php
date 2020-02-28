@@ -10,9 +10,9 @@ class ProductController extends Product
         return $this->setProduct($name, $description, $cat_id, $brd_id, $mrp, $base_price, $qyt, $unit, $loc, $status);
     }
 
-    public function update($name, $description, $cat_id, $brd_id, $mrp, $base_price, $qyt, $unit, $loc, $status)
+    public function update($id, $name, $des, $cat_id, $brd_id, $mrp, $base_price, $qyt, $unit, $loc)
     {
-        return $this->updateProduct($name, $description, $cat_id, $brd_id, $mrp, $base_price, $qyt, $unit, $loc, $status);
+        return $this->updateProduct($id, $name, $des, $cat_id, $brd_id, $mrp, $base_price, $qyt, $unit, $loc);
     }
 
     public function get()
@@ -72,5 +72,17 @@ class ProductController extends Product
         }
     }
 
+    public function decrementQyt($id, $qyt){
+        
+        $ob=$this->countElement('product_id', $id);
+        $r=$ob->fetch();
+        return $this->updateProductQyt($id, ($r['product_qyt']-$qyt));
+    }
+    public function lowQytProducts(){
+
+
+
+        return $this->inactive('product_qyt', '10')->rowCount();
+    }
 
 }

@@ -38,7 +38,22 @@ class UserController extends User
     }
     public function getUserForId($name){
 
-        return $this->getNameId($name);
+        $qry= $this->getNameId($name);
+        if ($qry->rowCount() > 0) {
+            $r=$qry->fetchAll();
+            $result = array();
+            foreach ($r as $row) {
+
+                $response = array("value" => $row['mobile'], "code" => $row['code'],
+                    "label" => $row['name'],
+                    "id" => $row['user_id'],);
+                array_push($result, $response);
+            }
+            return $result;
+        }else{
+            return $result=array('success'=>0,'message'=>'failed');
+        }
+
 
     }
 

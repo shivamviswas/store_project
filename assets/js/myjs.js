@@ -147,7 +147,7 @@ $(document).ready(function () {
         e.preventDefault();
         $('#addUser').modal('show');
     });
-    $(".auto").autocomplete({
+    $("#auto").autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: '../Users/userApi.php',
@@ -568,6 +568,7 @@ function addRow(product) {
        var tableB=$('#itemTable tbody');
        var row=$(
            "<tr>" +
+           "<td>"+product.pro_code +"</td>"+
            "<td>"+product.pro_name +"</td>"+
            "<td>"+product.pro_price +"</td>"+
            "<td>"+product.pro_qyt +"</td>"+
@@ -612,9 +613,11 @@ function totalCart(total) {
     $('#sub_v').html('<i class="fa fa-inr"></i>'+total);
     $('#sub').val(total);
     $('#tax_v').html('<i class="fa fa-inr"></i>'+tax);
+    $('#dis_v').html('<i class="fa fa-inr"></i>'+0);
+    $('#dis').val(0);
     $('#tax').val(tax);
     $('#net_total_v').html('<i class="fa fa-inr"></i>'+(Math.round(tax+total)));
-    $('#net_total').val((Math.round(tax+total)))
+    $('#net_total').val((Math.round(tax+total)));
 }
 function deleteItem(row) {
 item_cost=$(row).parent().parent().find('td:eq(3)').text();
@@ -622,50 +625,48 @@ total-=item_cost;
 totalCart(total);
 $(row).parent().parent().remove();
 }
+
 function mReset(){
-   /* $('#itemTable tbody').parent().remove();
-
-    $('#sub_v').html('<i class="fa fa-inr"></i>'+0);
-    $('#tax_v').html('<i class="fa fa-inr"></i>'+0);
-    $('#net_total_v').html('<i class="fa fa-inr"></i>'+0);*/
 }
-function checkOut() {
 
+
+function checkOut() {
     if($('#cart_user').valid()){
 
         if(isRowAdded){
 
             var itemArray=[];
-            var sub_arry=[];
+
             $('#itemTable tbody tr').each( function (row,tr) {
                  sub_arry={
-                    'name':$(tr).find('td:eq(0)').text(),
-                    'price':$(tr).find('td:eq(1)').text(),
-                    'qyt':$(tr).find('td:eq(2)').text(),
-                    'amount':$(tr).find('td:eq(3)').text()
+                    'name':$(tr).find('td:eq(1)').text(),
+                    'price':$(tr).find('td:eq(2)').text(),
+                    'qyt':$(tr).find('td:eq(3)').text(),
+                    'amount':$(tr).find('td:eq(4)').text(),
+                    'code':$(tr).find('td:eq(0)').text(),
                 };
-
+                itemArray.push(sub_arry);
             });
-            itemArray.push(sub_arry);
-            /*INSERT INTO `orders`(`id`, `no_item`, `user_name`, `user_code`, `user_mobile`, `discount`, `total_amount`, `payment_method`, `status`, `dateTime`)*/
+
             var user_name,user_mobile,user_code,total_amount,no_item,discount,payment_method;
             user_name=$('#username').val();
-            user_code=$('#code').val();
+            user_code=$('.code').val();
             user_mobile=$('#usermobile').val();
             total_amount=$('#net_total').val();
             no_item=itemArray.length;
             discount=$('#dis').val();
             payment_method='cash';
-
-            $.ajax({
-                url: '../Order/orderApi.php',
+            console.log('data => '+ JSON.stringify(itemArray));
+        $.ajax({
+                url: '../Orders/orderApi.php',
                 type: 'post',
-                dataType: "json",
+                dataType: 'json',
                 data: {
                     setOrder:'1',
+                    user_code:user_code,
                     user_name:user_name,
                     user_mobile:user_mobile,
-                    user_code:user_code,
+
                     total_amount:total_amount,
                     discount:discount,
                     payment_method:payment_method,
@@ -673,8 +674,8 @@ function checkOut() {
                     itemArray:itemArray
                 },
                 success: function (data) {
-
-                    if(data==='1'){
+                    console.log('data => '+ JSON.stringify(data));
+                    if(Number(data)>0){
                         $.alert({
                             title: 'Alert!',
                             content: 'You Ordered Successfully',
@@ -684,12 +685,13 @@ function checkOut() {
                                 ok: {
                                     text: 'Ok',
                                     action: function () {
-
+                                    window.location='../main_page/invoice.php?order_id='+data+'&tax='+ $('#tax').val()+'&sub='+ $('#sub').val();
                                     }
                                 }
                             }
                         });
-                    } else {
+                    }
+                    else {
                         $.alert({
                             title: 'Alert!',
                             content: 'Not Submitted',
@@ -707,6 +709,7 @@ function checkOut() {
                     }
                 },
                 error: function (data) {
+                    console.log('e data => '+ JSON.stringify(data));
                     $.alert({
                         title: 'Alert!',
                         content: 'Some Error',
@@ -762,11 +765,95 @@ function checkOut() {
             }
         });
     }
+}
 
+function addUserFromDash() {
+
+    var form=$('#userFormDash');
+    if(form.valid()){
+        $('#addBrand').modal('hide');
+        $.ajax({
+            url: '../Users/userApi.php',
+            type: 'post',
+            dataType: 'json',
+            data: form.serialize() ,
+            success: function (data) {
+                if(data=='1')
+                {
+                    $.alert({
+                    title: 'Alert!',
+                    content: 'Added Successfully',
+                    type: 'green',
+                    autoClose: "ok|2000",
+                    buttons: {
+                        ok: {
+                            text: 'Ok',
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+                }
+
+            },
+            error: function (data) {
+                console.log('e data => '+ JSON.stringify(data));
+
+
+            }
+        });
+
+        console.log(form)
+    }else {
+
+        showNotification('bottom', 'right', 'Please Fill All Details', '2');
+    }
+}
+
+/******************  End all Cart functions ***************************************/
+/******************END Cart Functions ***************************************/
+
+
+
+/******************Orders Functions ***************************************/
+
+function viewOrder(or_id) {
+    $.ajax({
+        url: '../Orders/invoice.php?order_id='+or_id, // url where to submit the request
+        type: "GET", // type of action POST || GET
+        success: function (data) {
+
+            $("#mViewOrder").html(data);
+            $('#viewOrder').modal('show');
+
+        },
+        error: function (result) {
+            console.log(result);
+        }
+    });
 
 
 }
-/******************  End all Cart functions ***************************************/
+
+function deleteOrder(or_id) {
+
+  $.ajax({
+        url: '../Orders/orderApi.php',
+        type: "Post", // type of action POST || GET
+        data: {delete:or_id}, // type of action POST || GET
+        success: function (data) {
+            if(data==1) {
+                $("#dataTable").load(window.location.href + " #dataTable");
+
+            }
+        },
+        error: function (result) {
+            console.log(result);
+        }
+    });
 
 
-/******************END Cart Functions ***************************************/
+}
+
+/******************Endorders Functions ***************************************/

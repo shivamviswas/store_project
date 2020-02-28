@@ -184,18 +184,17 @@ $product = new ProductController();
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="cate" class="bmd-label-floating">Category</label>
-                                            <Select id="cate" required class="form-control" name="cate">
-                                                <option value="">Select</option>
-                                            </Select>
+                                            <label for="cate" class="bmd-label">Category</label>
+                                            <input id="cate" required class="form-control" name="cate">
+
+
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="brand" class="bmd-label-floating">Brand</label>
-                                            <Select id="brand" required class="form-control" name="brand">
-                                                <option value="">Select</option>
-                                            </Select>
+                                            <label for="brand" class="bmd-label">Brand</label>
+                                            <input id="brand" required class="form-control" name="brand">
+
                                         </div>
                                     </div>
                                 </div>
@@ -218,7 +217,7 @@ $product = new ProductController();
                                     <div class="col mx-auto d-block">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Unit</label>
-                                            <input type="number" value="0" id="unit" class="form-control" name="unit">
+                                            <input type="text" value="0" id="unit" class="form-control" name="unit">
                                         </div>
                                     </div>
                                     <div class="col mx-auto d-block">
@@ -247,7 +246,7 @@ $product = new ProductController();
                                 </div>
 
                             </div>
-                            <button type="submit" name="update" class="btn btn-info pull-right">Add</button>
+                            <button type="submit" name="update" class="btn btn-info pull-right">Update</button>
 
                             <div class="clearfix"></div>
                         </form>

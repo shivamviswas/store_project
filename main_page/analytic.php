@@ -1,6 +1,7 @@
 <?php
 include_once('../controller/ProductController.php');
 include_once('../controller/CartController.php');
+include_once('../controller/CartController.php');
 include_once('../includes/myFunctions.php');
 $product = new ProductController();
 $cart = new CartController();
@@ -53,12 +54,14 @@ $cart = new CartController();
                             <i class="material-icons">info_outline</i>
                         </div>
                         <p class="card-category">Low qyt products</p>
-                        <h3 class="card-title">75</h3>
+                        <h3 class="card-title"><?= $product->lowQytProducts(); ?></h3>
                     </div>
                     <div class="card-footer">
+                        <a href="dashboard.php?page=../Product/index">
                         <div class="stats">
                             <i class="material-icons">info_outline</i> View
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -69,12 +72,14 @@ $cart = new CartController();
                             <i class="material-icons">art_track</i>
                         </div>
                         <p class="card-category">All Products</p>
-                        <h3 class="card-title">+245</h3>
+                        <h3 class="card-title"><?= $product->productCount(); ?></h3>
                     </div>
                     <div class="card-footer">
+                        <a href="dashboard.php?page=../Product/index">
                         <div class="stats">
-                            <i class="material-icons">update</i> Just Updated
+                            <i class="material-icons">update</i> View
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -99,32 +104,32 @@ $cart = new CartController();
                         <div class="col-10">
                             <form id="cart_user">
                                 <div class="row ">
-                                    <div class="col  ">
+                                    <div class="col">
                                         <div class="form-group">
 
                                             <label for="auto" class="bmd-label">Code</label>
-                                            <input type="text" id="auto" required placeholder="" value="" class=" bg-white form-control auto" name="code">
+                                            <input type="text" id="auto" required placeholder="" value="" class=" bg-white form-control code auto" name="code">
                                         </div>
                                     </div>
-                                    <div class="col  ">
+                                    <div class="col">
                                         <div class="form-group">
                                             <label for="username" class="bmd-label">Name</label>
-                                            <input type="text" id="username" placeholder="" required class=" bg-white form-control "
+                                            <input type="text" disabled id="username" placeholder="" required class=" bg-white form-control "
                                                    name="name">
                                         </div>
                                     </div>
 
-                                    <div class="col ">
+                                    <div class="col">
                                         <div class="form-group">
                                             <label for="usermobile" class="bmd-label">Mobile </label>
-                                            <input type="number"  placeholder="" id="usermobile" required
+                                            <input type="number" disabled placeholder="" id="usermobile" required
                                                    class="form-control bg-white "
                                                    name="mobile">
-                                            <input type="hidden" id="userid" name="user_id">
+                                            <input type="hidden" disabled id="userid" name="user_id">
                                         </div>
                                     </div>
 
-                                    <div class="col ">
+                                    <div class="col">
                                         <div class="form-group">
                                             <label for="balance" class="bmd-label">Card Balance</label>
                                             <input type="number"  disabled placeholder="" id="balance" required
@@ -137,7 +142,7 @@ $cart = new CartController();
                                     <div class="col-2">
                                         <div align="right" class="form-group">
                                             <a  href='#' onclick='' class='btn  btn-sm btn-danger'
-                                                id='addNewUser'>Add New User</a>
+                                                id='addNewBrand'>Add New User</a>
                                         </div>
                                     </div>
                                 </div></form>
@@ -151,12 +156,12 @@ $cart = new CartController();
                                     <form class="form-horizontal" id="product_add_table">
                                         <table class=" table-shopping  table-bordered">
                                             <thead>
-                                            <th>Code</th>
+                                            <th width="20%">Product Code</th>
                                             <th>Name</th>
-                                            <th>Price</th>
-                                            <th>Qyt</th>
-                                            <th>Amount</th>
-                                            <th>Btn</th>
+                                            <th width="12%">Price</th>
+                                            <th width="12%" >Qyt</th>
+                                            <th width="12%">Amount</th>
+                                            <th width="12%">Btn</th>
                                             </thead>
                                             <tbody>
                                             <tr>
@@ -186,6 +191,7 @@ $cart = new CartController();
                                     <form class="form-horizontal" id="product_add_table">
                                         <table class="table table-shopping table-bordered table-hover" id="itemTable">
                                             <thead>
+                                            <th width="10%">P.Code</th>
                                             <th width="60%">Name</th>
                                             <th width="10%">Price</th>
                                             <th width="10%">Qyt</th>
@@ -307,5 +313,74 @@ $cart = new CartController();
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div id="addBrand" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content card">
+
+            <div class="card-header card-header-warning">
+                <h4 class="card-title">Add User</h4>
+                <p class="card-category">Please Fill All Details</p>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="">
+
+                    <div class="card-body">
+                        <form id="userFormDash">
+
+                            <div class="">
+                                <div class="row ">
+                                    <div class="col-md-12 mx-auto d-block">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Code</label>
+                                            <input type="text" required class="form-control" name="code">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 mx-auto d-block">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Name</label>
+                                            <input type="text" required class="form-control" name="name">
+                                            <input type="hidden" required class="form-control" name="addUserFromDash">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 mx-auto d-block">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Mobile</label>
+                                            <input type="number" required class="form-control" name="mobile">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 mx-auto d-block">
+                                        <div class="form-group">
+                                            <label class="">Join Date</label>
+                                            <input type="date" class="form-control" name="date">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </form>
+                        <button type="button" name="addNewUser" onclick="addUserFromDash()" class="btn btn-warning pull-right">Submit</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

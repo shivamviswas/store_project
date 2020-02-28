@@ -2,6 +2,7 @@
 
 class Dbh
 {
+
     public function connect()
     {
         $host = 'localhost:3308';
@@ -11,13 +12,12 @@ class Dbh
         $con='';
         try {
 
-            $opt = array(
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            $opt = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC);
             $con = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass,$opt);
 
 
-           // $con->setAttribute($opt);
 
         } catch (PDOException $e) {
 

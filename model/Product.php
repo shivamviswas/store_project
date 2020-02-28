@@ -51,6 +51,13 @@ class Product extends Dbh
         $qry->execute();
         return $qry;
     }
+    public function inactive($check, $condition)
+    {
+        $qry = $this->connect()->prepare("SELECT * FROM `product` Where $check <= :cond");
+        $qry->bindParam(':cond', $condition);
+        $qry->execute();
+        return $qry;
+    }
 
     protected function updateProductStatus($id, $status)
     {
@@ -61,12 +68,21 @@ class Product extends Dbh
         return $qry->execute();
 
     }
+    protected function updateProductQyt($id, $status)
+    {
+
+        $qry = $this->connect()->prepare("UPDATE `product` SET `product_qyt`= :status WHERE product_id = :id");
+        $qry->bindParam(':status', $status);
+        $qry->bindParam(':id', $id);
+        return $qry->execute();
+
+    }
 
     protected function updateProduct($id, $name, $des, $cat_id, $brd_id, $mrp, $base_price, $qyt, $unit, $loc)
     {
 
         $status = 'Active';
-        $qry = $this->connect()->prepare("UPDATE `product` SET `category_id`= :c_i,`brnad_id`= :b_i,`product_name`= :n,`product_des`= :d,
+        $qry = $this->connect()->prepare("UPDATE `product` SET `category_id`= :c_i,`brnad_id`= :b_i,`product_name`= :n,`product_description`= :d,
         `product_unit`= :u,`product_qyt`= :q,`product_base_price`= :b,`product_mrp`= :m,`location`= :l WHERE product_id = :i AND product_status = :s");
         $qry->bindParam(':c_i', $cat_id);
         $qry->bindParam(':b_i', $brd_id);

@@ -32,7 +32,3 @@ function randomCode($length)
     return implode($pass); //turn the array into a string
 
 }
-
-function setOrderId($id){
-
-}
