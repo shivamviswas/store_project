@@ -61,7 +61,7 @@ class ProductController extends Product
             $r = $qry->fetchAll();
             $result = array();
             foreach ($r as $row) {
-                if ($row['product_status'] == 'Active')
+                if ($row['product_status'] == 'Active' &&  $row['product_qyt']>0)
                    { $response = array("label" => $row['product_name'], "value" => $row['product_id'], "total_qyt" => $row['product_qyt'], "price" => $row['product_mrp']);
                 array_push($result, $response);}
             }

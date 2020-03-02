@@ -1,6 +1,7 @@
 <?php
 
 include_once '../model/User.php';
+include_once '../includes/myFunctions.php';
 class UserController extends User
 {
 
@@ -43,11 +44,13 @@ class UserController extends User
             $r=$qry->fetchAll();
             $result = array();
             foreach ($r as $row) {
-
+                if($row['status']=='Active'){
                 $response = array("value" => $row['mobile'], "code" => $row['code'],
                     "label" => $row['name'],
-                    "id" => $row['user_id'],);
+                    "id" => $row['user_id'],
+                    "bal" => $row['card_balance']);
                 array_push($result, $response);
+                }
             }
             return $result;
         }else{
@@ -66,6 +69,22 @@ class UserController extends User
 
        }
         return http_response_code(500);
+    }
+
+    public function updateBalance($user_code,$balance){
+
+       $r= $this->countElement('code',$user_code)->fetch();
+
+       $this->updateUserBalance($user_code,($r['card_balance']+$balance));
+
+    }
+
+    public function updateSubBalance($user_code,$balance){
+
+       $r= $this->countElement('code',$user_code)->fetch();
+
+       $this->updateUserBalance($user_code,($r['card_balance']-$balance));
+
     }
 
 

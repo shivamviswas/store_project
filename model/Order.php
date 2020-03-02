@@ -47,4 +47,15 @@ class Order extends Dbh
         $qry->bindParam(':o_i', $id);
         return $qry->execute();
     }
+
+    protected function getAllDaily(){
+        /*SELECT * FROM `table` WHERE DATE(`timestamp`) = CURDATE()*/
+        $qry = $this->connect()->prepare("SELECT * FROM `orders` WHERE DATE(`dateTime`) = CURDATE()");
+        $qry->execute();
+        if($qry->rowCount()>0){
+            return $qry;
+        }else{
+            return 0;
+        }
+    }
 }

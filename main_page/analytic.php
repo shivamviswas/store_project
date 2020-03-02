@@ -1,10 +1,13 @@
 <?php
 include_once('../controller/ProductController.php');
 include_once('../controller/CartController.php');
-include_once('../controller/CartController.php');
+include_once('../controller/OrderController.php');
+include_once('../controller/UserController.php');
 include_once('../includes/myFunctions.php');
 $product = new ProductController();
 $cart = new CartController();
+$order= new OrderController();
+$user= new UserController();
 
 
 ?>
@@ -18,7 +21,7 @@ $cart = new CartController();
                             <i class="material-icons">supervisor_account</i>
                         </div>
                         <p class="card-category">Users</p>
-                        <h3 class="card-title">49/50
+                        <h3 class="card-title"><?= $user->userCount() ?>
 
                         </h3>
                     </div>
@@ -38,7 +41,15 @@ $cart = new CartController();
                             <i class="fa fa-inr"></i>
                         </div>
                         <p class="card-category">Total Revenue</p>
-                        <h3 class="card-title">101,222</h3>
+                        <h3 class="card-title">Rs.<?$sales=0;
+                            if($order->getDailyOrders()){
+                            $r=$order->getDailyOrders()->fetchAll() ;
+                        foreach ($r as $rs)
+                        {
+                            $sales+=$rs['total_amount'];
+                        }
+                        }echo $sales;
+                        ?></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -218,7 +229,7 @@ $cart = new CartController();
 
                                         <tr>
                                             <td class="light text-right">Discount</td>
-                                            <td class="text-right"><span id="dis_v"></span><input type="hidden" id="dis" value="0">
+                                            <td class="text-right"><span id="dis_v"></span><input min="0" class="form-control" type="hidden" id="dis" value="0">
                                             </td>
                                         </tr>
                                         <tr>

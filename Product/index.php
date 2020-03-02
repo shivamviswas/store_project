@@ -137,7 +137,11 @@ $product = new ProductController();
                                     <td class="text-center" ><?= htmlspecialchars($r['category_id']) ?></td>
                                     <td class="text-center" ><?= htmlspecialchars($r['brnad_id']) ?></td>
                                     <td class="text-center" ><?= htmlspecialchars($r['product_description']) ?></td>
-                                    <td class="text-center" ><?= htmlspecialchars($r['product_qyt']) ?></td>
+                                    <td class="text-center" ><? if ($r['product_qyt']>10){
+                                        echo $r['product_qyt'];
+                                        } else{
+                                        echo "<span class='badge badge-danger'>".$r['product_qyt']." </span>";
+                                        }?></td>
                                     <td class="text-center" ><i class="fa fa-inr"></i><?= htmlspecialchars($r['product_base_price']) ?></td>
                                     <td class="text-center" ><i class="fa fa-inr"></i><?= htmlspecialchars($r['product_mrp']) ?></td>
                                     <td class="text-center" > <?= htmlspecialchars($r['location']) ?></td>

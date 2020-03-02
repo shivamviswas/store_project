@@ -13,8 +13,7 @@ class User extends Dbh
         $status = (new self)->validString($status);
 
         if (!$this->isUserExist($code)) {
-            $qry = $this->connect()->prepare("INSERT INTO `users`( `code`, `name`, `mobile`, `status`, `dateTime`) 
-                                                        VALUES (:code,:names,:mobile,:status,:date)");
+            $qry = $this->connect()->prepare("INSERT INTO `users`( `code`, `name`, `mobile`, `status`, `dateTime`) VALUES (:code,:names,:mobile,:status,:date)");
 
             $qry->bindParam(':names', $name);
             $qry->bindParam(':mobile', $mobile);
@@ -98,6 +97,16 @@ class User extends Dbh
         $status = (new self)->validString($status);
 
         $qry = $this->connect()->prepare("UPDATE `users` SET `status`= :status WHERE user_id = :id");
+        $qry->bindParam(':status', $status);
+        $qry->bindParam(':id', $user_id);
+        return $qry->execute();
+
+    }
+    protected function updateUserBalance($user_id, $status)
+    {
+        $user_id = (new self)->validString($user_id);
+        $status = (new self)->validString($status);
+        $qry = $this->connect()->prepare("UPDATE `users` SET `card_balance`= :status WHERE code = :id");
         $qry->bindParam(':status', $status);
         $qry->bindParam(':id', $user_id);
         return $qry->execute();

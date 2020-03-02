@@ -49,14 +49,20 @@
                     <p>Orders</p>
                 </a>
             </li>
-
             <li class="nav-item" id="act6">
+                <a class="nav-link" href="dashboard.php?page=../UsersCard/index">
+                    <i class="fa fa-credit-card"></i>
+                    <p>Users Card</p>
+                </a>
+            </li>
+
+            <li class="nav-item" id="act7">
                 <a class="nav-link" href="dashboard.php?page=../Sales/index">
                     <i class="material-icons">trending_up</i>
                     <p>Sales Report</p>
                 </a>
             </li>
-            <li class="nav-item" id="act7">
+            <li class="nav-item" id="act8">
                 <a class="nav-link" href="dashboard.php?page=../Profile/index">
                     <i class="material-icons">person</i>
                     <p>Profile Settings</p>

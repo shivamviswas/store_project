@@ -28,9 +28,12 @@ $(document).ready(function () {
             case '6':
                 $('#act6').attr('class', 'nav-item active');
                 break;
-
-            case '7':
+                case '7':
                 $('#act7').attr('class', 'nav-item active');
+                break;
+
+            case '8':
+                $('#act8').attr('class', 'nav-item active');
                 break;
 
 
@@ -175,7 +178,10 @@ $(document).ready(function () {
             $('#auto').val(ui.item.code);// save selected id to input
             $('#code_view').html(ui.item.code);// save selected id to input
             $('#id_view').val(ui.item.id);// save selected id to input
-
+            $('#balance').val(Math.round(ui.item.bal));// save selected id to input
+            if(ui.item.bal>1){
+                addDiscount(Math.round(ui.item.bal));
+            }
             return false;
         }
     });
@@ -474,6 +480,7 @@ $(document).ready(function () {
             currentStock = (ui.item.total_qyt);
             $('#pro_price').val(ui.item.price);
             $('#pro_amount').val(ui.item.price);
+
             return false;
         }
     });
@@ -546,6 +553,7 @@ $(document).ready(function () {
    /******************  end Add Item ***************************************/
 
 });
+var gl_total=0;
 var item_cost=0;
 var total=0;
 var isRowAdded=false;
@@ -585,6 +593,8 @@ function addRow(product) {
        $('#product_add_table')[0].reset();
        total+=Number(product.pro_amount);
        isRowAdded=true;
+
+       gl_total=total;
        totalCart(total);
    }
    else {
@@ -613,11 +623,10 @@ function totalCart(total) {
     $('#sub_v').html('<i class="fa fa-inr"></i>'+total);
     $('#sub').val(total);
     $('#tax_v').html('<i class="fa fa-inr"></i>'+tax);
-    $('#dis_v').html('<i class="fa fa-inr"></i>'+0);
-    $('#dis').val(0);
+    $('#dis_v').html('<i class="fa fa-inr"></i>'+$('#dis').val());
     $('#tax').val(tax);
-    $('#net_total_v').html('<i class="fa fa-inr"></i>'+(Math.round(tax+total)));
-    $('#net_total').val((Math.round(tax+total)));
+    $('#net_total_v').html('<i class="fa fa-inr"></i>'+(Math.round(tax+total- $('#dis').val())));
+    $('#net_total').val((Math.round(tax+total- $('#dis').val())));
 }
 function deleteItem(row) {
 item_cost=$(row).parent().parent().find('td:eq(3)').text();
@@ -809,6 +818,45 @@ function addUserFromDash() {
 
         showNotification('bottom', 'right', 'Please Fill All Details', '2');
     }
+}
+function addDiscount(bal) {
+var disInput=$('#dis');
+    disInput.attr( { type:"number", value:bal });
+    disInput.on('change',function (e) {
+        if(disInput.val()>bal){
+            $.alert({
+                title: 'Alert!',
+                content: 'you can not enter above balance',
+                type: 'red',
+                autoClose: "ok|2000",
+                buttons: {
+                    ok: {
+                        text: 'Ok',
+                        action: function () {
+                            disInput.val(0);
+                            totalCart(gl_total);
+                        }
+                    }
+                }
+            });
+            return false;
+        }
+        else {
+
+            if($('#net_total').val()>0 && $('#dis').val()>0){
+
+                var dis=$('#dis').val();
+                var total=$('#net_total').val();
+                console.log(''+total-dis);
+                $('#net_total_v').html('<i class="fa fa-inr"></i>'+(Math.round(total-dis)));
+                $('#net_total').val((Math.round(total-dis)));
+
+            }
+
+        }
+    })
+
+
 }
 
 /******************  End all Cart functions ***************************************/

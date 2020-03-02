@@ -32,3 +32,11 @@ function randomCode($length)
     return implode($pass); //turn the array into a string
 
 }
+function msg_to_member($mobile,$CB,$TP)
+{
+    if ( strlen($mobile)>9)
+    {$msg="Congratulations, Apna Store has gave Rs.$CB towards 50% cash back of Rs.$TP of profit for Apna Profit 50-50 Program.";
+    $ht = "http://api.msg91.com/api/sendhttp.php?country=91&sender=APNAST&route=4&mobiles=".$mobile."&authkey=292400AaEdEcV55d6e5748&message=$msg";
+    $tt = file_get_contents($ht);
+    }
+}

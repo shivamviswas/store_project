@@ -3,10 +3,10 @@ include_once('../controller/UserController.php');
 $users = new UserController();
 ?>
 <nav aria-label="breadcrumb">
-    <input type="hidden" id="userPage" value="1">
+    <input type="hidden" id="userPage" value="6">
     <ol class="breadcrumb secondary-color">
         <li class="breadcrumb-item"><a href="http://localhost/store_project/main_page/dashboard.php">Dashboard</a></li>
-        <li class="breadcrumb-item active">Users</li>
+        <li class="breadcrumb-item active">Users Card</li>
     </ol>
 </nav>
 
